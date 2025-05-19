@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+	<html lang="en">
+    <head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE-edge">
+		<meta name="viewport" content="width=device-width,
+		initial-scale=1.0">
+		<title>ALMACEN GENERAL</title> 
+              <style>
+                  table, th, td{
+                      border: 1px solid black;
+                 }
+              </style>
+	</head>
+	<body> 
+                <H1>ALMACEN GENERAL DEL AREA DE MATENIMIENTO</H1>  
+                <label for ="name">BUSCAR REGISTRO</label>
+                 <input type ="text">
+                 <button>BUSCAR MATERIAL POR ID</button>
+                 <button>AGREGAR NUEVO REGISTRO</button>
+		<div class="container">
+			<table>
+			    <thead>
+					<tr>
+						<th>seccion</th>
+						<th>Nombre del material</th>
+						<th>Clave</th>
+						<th>Cantidad en existencia</th>
+						<th>Fecha de Registro</th>
+						<th>Precio por Unidad</th>
+						<th>Precio Total</th>
+						<th>Usos</th>
+					</tr>
+				</thead>
+				        <tbody>
+						<tr>
+							<td>tornilleria</td>
+							<td>tornillos para postes en kilos</td>
+							<td>23456</td>
+							<td>4</td>
+							<td>14/09/2024</td>
+							<td>20</td>
+							<td>80</td>
+							<td>atornillar los postes y faros</td>
+						</tr>
+						<tr>
+						    <td>ventilacion</td>
+							<td>aires acondicionados</td>
+							<td>56788</td>
+							<td>7</td>
+							<td>24/08/2024</td>
+							<td>7000</td>
+							<td>49000</td>
+							<td>instalacion en las oficinas de servicios</td>
+						</tr>
+						</tbody>
+			</table>
+		</div>
+    <fieldset>
+                 <Legend> EDITAR REGISTRO </Legend>
+                 <form> 
+                 <label for ="name">ID</label>
+                 <input type ="text">
+                 <button>BUSCAR MATERIAL POR ID</button>
+				 
+				 <br> 
+
+				 <label for ="name">Seccion</label>
+				 <input type ="text">
+
+                 <br> 
+
+                 <label for ="name">Nombre</label>
+                 <input type ="text">
+                
+                 <br> 
+
+                 <label for ="name">Clave</label>
+                 <input type ="text">
+
+                 <br> 
+
+                 <label for ="name">Cantidad en existencia</label>
+                 <input type ="text">
+
+                 <br> 
+
+                 <label for ="name">Fecha de Registro</label>
+                 <input type ="text">
+               
+                 <br> 
+
+                 <label for ="name">Precio por Unidad</label>
+                 <input type ="text">
+  
+                  <br> 
+
+                 <label for ="name">Usos</label>
+                 <input type ="text">
+
+                  <br> 
+
+                  <button>Editar Registro</button>
+
+                  
+
+                  <button>ELIMINAR MATERIAL</button>
+
+
+                 </form>
+
+          </fieldset>
+	</body>
+
+</html>

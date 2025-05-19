@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nuevo Categoria</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<h1>Agregar nuevo categoria</h1>
+	<br>
+	<form method="POST" action="addCategory">
+		<p>Categoria:</p><input type="text" name="cat">
+		<p>Crear Nueva Categoria de Material:</p><input type="submit" value="crear">
+
+	</form>
+	<br>
+	<div th:if="${mensaje != null}">
+		<p th:text="${mensaje}" style="color: rgb(64, 0, 128);"></p>
+	</div>
+
+	<div class="container">
+		<h2 class="text-center">Lista de Categorias Registradas</h2>
+		<div class="table-responsive">
+			<table border="2" width="90%">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Categoria</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="categoria:${categorias}">
+										<td th:text="${categoria.id}"></td>
+										<td th:text="${categoria.cat}"></td>
+				    </tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

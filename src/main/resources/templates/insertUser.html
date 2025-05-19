@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo usuario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body class="container mt-4">
+    <h1 class="text-center">Agregar Nuevo Usuario</h1>
+    
+    <!-- Formulario para agregar usuario -->
+    <form method="POST" action="addUser" class="border p-4 rounded shadow-sm">
+        <div class="form-group">
+            <p>Nombre:</p><input type="text" name="nom" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <p>Apellido:</p><input type="text" name="ape" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <p>Usuario:</p><input type="text" name="user" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <p>Contraseña:</p><input type="password" name="pass" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <p>Tipo de Usuario:</p><input type="text" name="tip" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <p>Correo:</p><input type="email" name="cor" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Crear</button>
+    </form>
+
+    <!-- Mensaje de éxito o error -->
+    <div th:if="${mensaje != null}" class="alert alert-info mt-3 text-center">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="container">
+        <h2 class="text-center">Lista de Usuarios Registrados</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Contraseña</th>
+                        <th>Tipo de Usuario</th>
+                        <th>Correo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.id}"></td>
+                        <td th:text="${usuario.user}"></td>
+						<td th:text="${usuario?.usercorr?.nom}"></td>
+						<td th:text="${usuario?.usercorr?.ape}"></td>
+                        <td th:text="${usuario.pass}"></td>
+                        <td th:text="${usuario.tip}"></td>
+                        <td th:text="${usuario.cor}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

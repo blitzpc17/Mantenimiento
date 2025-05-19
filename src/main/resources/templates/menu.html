@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section},  ~{::script},  ~{::link}, ~{::inline-style}  )}">
+<head>
+	<title>Menú principal</title>
+	<meta charset="UTF-8">	
+
+	<th:block layout:fragment="link"></th:block>
+
+	<th:block th:fragment="inline-style">
+		<style>
+			.btn-azul {
+				background-color: #007BFF; /* Azul */
+				color: white;
+			}
+			.btn-verde {
+				background-color: #28a745; /* Verde */
+				color: white;
+			}
+			.btn-naranja {
+				background-color: #FD7E14; /* Naranja */
+				color: white;
+			}
+			.btn-morado {
+				background-color: #6f42c1; /* Morado */
+				color: white;
+			} 
+			.btn-rojo {
+				background-color: rgb(255, 0, 0); /* Morado */
+				color: white;
+			}
+					
+			.btn-negro {
+				background-color: rgb(64, 0, 64); /* Morado */
+				color: white;
+			} 
+			
+			.btn-gradiente {
+				background: linear-gradient(45deg, #ff416c, #ff4b2b); /* Degradado rojo/naranja */
+				color: white;
+				border: none;
+				transition: 0.3s;
+			}
+
+			.btn:hover{
+				color: gray;
+				font-weight: 600;
+			}
+
+		</style>
+	</th:block>
+
+
+
+</head>
+<body>
+
+	<section>
+
+		<div class="container">	
+
+
+			<h1 class="text-center">Menú Principal Del Area de Mantenimiento</h1>
+			<hr>
+		
+			<div class="row text-center">
+				<!-- Botón para Usuarios -->
+				<div class="col-md-3">
+					<a href="/usuarios" class="btn btn-primary btn-lg btn-block">
+						<i class="fas fa-user"></i> Registrar Usuarios
+					</a>
+				</div>
+		
+				<!-- Botón para Registrar Inventario -->
+				<div class="col-md-3">
+					<a href="/inventario" class="btn btn-success btn-lg btn-block">
+						<i class="fas fa-warehouse"></i> Inventario
+					</a>
+				</div>
+		
+				<!-- Botón para Registrar Categorías -->
+				<div class="col-md-3">
+					<a href="/categorias" class="btn btn-warning btn-lg btn-block">
+						<i class="fas fa-list"></i> Categorías
+					</a>
+				</div>
+		
+				<!-- Botón para Ver Peticiones -->
+				<div class="col-md-3">
+					<a href="/listapeticiones" class="btn btn-info btn-lg btn-block">
+						<i class="fas fa-file-alt"></i> Peticiones
+					</a>
+				</div>
+		
+				<!-- Botón para Ver los usuarios registrados -->
+				<div class="col-md-3">
+					<a href="/listausuarios"  class="btn btn-rojo btn-lg btn-block">
+						<i class="fas fa-file-alt"></i> ver Usuarios
+					</a>
+				</div>
+		
+				<!-- Botón para Ver Registro de Todos Los Materiales Oficiales -->
+				<div class="col-md-3">
+					<a href="/inventario/" class="btn btn-negro btn-lg btn-block">
+						<i class="fas fa-file-alt"></i> Materiales Oficiales
+					</a>
+				</div>
+		
+				<!-- Botón para Ver Categorias -->
+				<div class="col-md-3">
+					<a href="/listacategorias" class="btn btn-morado btn-lg btn-block">
+						<i class="fas fa-file-alt"></i> Ver Categorias
+					</a>
+				</div>
+
+
+				<div class="col-md-3">
+					<a href="/logout" class="btn btn-secondary btn-lg btn-block">
+						<i class="fas fa-file-alt"></i> Cerrar sesión
+					</a>
+				</div>
+				
+			</div>
+		
+			<hr>
+			<footer class="text-center mt-5">
+				<p>&copy; 2025 - Sistema de Inventario Del Area de Mantenimiento</p>
+			</footer>
+			
+
+		
+		
+
+
+
+
+		</div>
+
+
+	
+	</section>
+
+
+	<th:block th:fragment="script">
+	
+		<script>
+
+
+		</script>
+        
+    </th:block>
+	
+	
+	
+</body>
+</html>

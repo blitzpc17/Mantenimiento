@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>ACTUALIZACION DE USUARIO</title>
+	<meta charset="UTF-8">
+</head>
+
+<form method="POST" th:action="@{|/user/editar/${usuario.id}|}" class="formulario">
+	
+	<div class="form-group my-3">
+		<p>Nombre:</p><input th:value="${usuario?.usercorr?.nom}"type="text" class="form-control" name="nom">
+		<p>Apellido:</p><input th:value="${usuario?.usercorr?.ape}"type="text" class="form-control" name="ape">
+		<p>Usuario:</p><input th:value="${usuario.user}"type="text" class="form-control" name="user">
+		<p>Contraseña:</p><input th:value="${usuario.pass}" type="password" class="form-control" name="pass">
+		<p>Tipo de Usuario:</p><input th:value="${usuario.tip}" type="text" class="form-control" name="tip">
+		<p>Correo:</p><input th:value="${usuario.cor}" type="text" class="form-control" name="cor">
+		<p>Editar Usuario:</p><input type="submit" value="editar">		
+	</div>		
+	</form>
+</html>

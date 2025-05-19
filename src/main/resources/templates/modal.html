@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="modalFrag">
+	
+	<div id="containerModalId" class="containerModal">
+		<div class="contentModal">
+			<span id="close" class="close">&times;</span>
+			<p id="messageId" class="message"></p>
+			<form id="formDelete" method="post">
+				<button id="btnDelete" class="btn btnDelete">Eliminar</button>
+			</form>
+		</div>
+	</div>
+</div>
+</html>

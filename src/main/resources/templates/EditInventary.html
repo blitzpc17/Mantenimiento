@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html> 
+
+<head>
+	<title>ACTUALIZACION DE USUARIO</title>
+	<meta charset="UTF-8">
+</head>	 
+    <form method="POST" th:action="@{|/nombre/editar/${inventario.id}|}" class="formulario">
+       
+		<div class="form-group my-3">
+			<p>Nombre del material:</p><input th:value="${inventario.nom}"type="text" class="form-control" name="nombre">
+			<p>Area de Ubicacion:</p><input th:value="${inventario.area}"type="text" class="form-control" name="area">				
+			<p>Clave del material:</p><input th:value="${inventario.cla}"type="text" class="form-control" name="clave">
+			<p>Cantidad Total Registrada:</p><input th:value="${inventario.tocan}"type="number" class="form-control" name="total_cantidad">
+			<p>Fecha de Registro:</p><input th:value="${inventario.fere}"type="date" class="form-control" name="fecha_registro">
+			<p>Precio por unidad del Material:</p><input th:value="${inventario.pre}"type="precio" class="form-control" name="precio">
+			<p>Precio Total del Material:</p>		
+			<p>Descripcion de Usos Especificos del Material:</p><input th:value="${inventario.us}"type="text" class="form-control" name="uso">	
+			<p>Categoría:</p>
+			          <select class="Categoria form-control" id="idseccat" name="categoria">
+			              <option value="">SELECCIONAR CATEGORIA</option>
+			              <option th:each="categoria : ${categorias}" 
+			                      th:value="${categoria.cat}" 
+			                      th:text="${categoria.cat}" 
+			                      th:selected="${categoria.cat == inventario.idseccat?.id}">
+			              </option>
+			          </select>
+			<p>Editar Material:</p><input type="submit" value="editar">		
+		</div>
+    </form>
+</html>

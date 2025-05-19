@@ -1,0 +1,83 @@
+<!DOCTYPE >
+<html>
+
+<head>
+	<title>Actilizacion de Materiales Disponibles y Peticiones</title>
+	
+	<meta charset="UTF-8"> 
+	<script type="text/javascript" th:src="@{funcion4.js}"></script>
+	<link rel="stylesheet" th:href="@{modal.css}">
+
+</head>  
+        <div th:replace="~{modal :: modalFrag}"></div>
+		<h1>Lista de peticiones Realizadas</h1> 
+		
+		<th>BUSCAR PETICION:</th> 
+		
+		<form action="/nombre/buscar" method="post">
+			   <input type="text" name="buscar" placeholder="Buscar..." value="">
+			    <button type="submit">Buscar</button>
+			</form>  
+			
+			<div class="search-box">
+					    <input type="text" id="buscar" name="buscar" placeholder="Buscar..." required oninput="realizarBusqueda()">
+			</div>
+			
+		<div class="container">
+					<table border="2" width="90%">
+						<thead>
+							<tr> 
+								<th>id</th>
+								<th>Nombre del Solicitante</th>
+								
+								<th>Nombre del material</th>
+								<th>Clave</th>
+								
+								<th>Area Solicitada</th> 
+								<th>Cantidad que Solicitada</th> 
+								
+								<th>Precio por Unidad</th> 
+								
+								<th>Usos y su Especificacion</th>
+								
+								<th>fecha de Peticion</th> 
+								
+								 <th>Especificacion de Usos:</th>
+								<th>Fecha de Registro</th> 					
+								
+					
+							</tr> 
+						</thead> 
+					
+						<tbody>
+										<tr th:each="peticion:${peticiones}">
+											
+											<td th:text="${peticion.id}"></td>
+											<td th:text="${peticion.nomsol}"></td>
+											
+											<td th:text="${peticion.totalcan.nom}"></td>
+											<td th:text="${peticion.totalcan.cla}"></td>
+											
+											<td th:text="${peticion.aresol}"></td>
+											<td th:text="${peticion.cansol}"></td>
+											
+											<td th:text="${peticion.totalcan.pre}"></td>
+											<td th:text="${peticion.totalcan.us}">
+											
+											<td th:text="${peticion.fepe}"></td>
+											<td th:text="${peticion.espe}"></td>
+											
+											<td th:text="${peticion.feel}"></td> 
+											<td>
+												<a th:href="@{/peticion/reporte/{id}(id=${peticion.id})}" target="_blank">SOLICITAR REPORTE DE LA PETICION EN PDF</a>
+																						 
+												<button th:onclick="'eliminar(' + ${peticion.id} +');'">ELIMINAR</button>
+											<!--	<a th:href="@{|/peticion/eliminar/${peticion.id}|}" >ELIMINAR</a> -->
+	
+											</td>
+										
+										</tr>
+									</tbody>
+						        </table>
+						    </div>
+                         </html>

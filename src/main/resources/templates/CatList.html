@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nueva Categoria</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" th:src="@{funcion2.js}"></script>
+	<script type="text/javascript" th:src="@{busquedacategoria.js}"></script>
+	
+	<link rel="stylesheet" th:href="@{modal.css}">
+</head> 
+<body>
+	<div th:replace="~{modal :: modalFrag}"></div>
+	<h1>Lista de Categorias</h1>
+	
+	<th>BUSCAR:</th>		
+				
+			<form action="/cat/buscar" method="post">
+			   <input type="text" name="buscar" placeholder="Buscar..." value="">
+			    <button type="submit">Buscar</button>
+			</form>
+				
+				<div class="search-box">
+				    <input type="text" id="buscar" name="buscar" placeholder="Buscar..." required oninput="realizarBusqueda()">
+				</div>
+	
+<div class="container">		
+		<table border="2" width="90%">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>categoria</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="categoria:${categorias}">
+					<td th:text="${categoria.id}"></td>
+					<td th:text="${categoria.cat}"></td>
+					<td>
+						<a th:href="@{|/cat/editar/${categoria.id}|}" >EDITAR</a>
+						<button th:onclick="'eliminar(' + ${categoria.id} +');'">ELIMINAR</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

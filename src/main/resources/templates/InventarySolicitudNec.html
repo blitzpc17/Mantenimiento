@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nuevo Material dentro del Inventario</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" th:src="@{busquedamaterial.js}"></script>
+	<link rel="stylesheet" th:href="@{modal.css}">
+</head>
+<body>
+	
+	<div th:replace="~{modal :: modalFrag}"></div>
+	<h1>PETICIONES SOLICITADAS DISPONIBLES DEL INVENTARIO</h1>
+		
+	<th>BUSCAR:</th>		
+		
+	<form action="/nombre/buscar" method="post">
+	   <input type="text" name="buscar" placeholder="Buscar..." value="">
+	    <button type="submit">Buscar</button>
+	</form>
+	
+		<div class="search-box">
+		    <input type="text" id="buscar" name="buscar" placeholder="Buscar..." required oninput="realizarBusqueda()">
+		</div>
+		
+	<!-- <script>
+			function realizarBusqueda() {
+						    let query = document.getElementById("buscar").value;
+						    if (query.length > 2) {
+						        fetch(`/nombre/buscar`, {
+						            method: "POST",
+						            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+						            body: new URLSearchParams({ buscar: query })
+						        })
+						        .then(response => response.text())
+						        .then(html => {
+						            document.querySelector("tbody").innerHTML = new DOMParser()
+						                .parseFromString(html, "text/html").querySelector("tbody").innerHTML;
+						        })
+						        .catch(error => console.error("Error en la búsqueda:", error));
+						    }
+						}
+		</script>-->
+	<div class="container">
+		<table border="2" width="90%">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>seccion</th>
+					<th>Nombre del material</th>
+					<th>Area de ubicacion:</th> 
+					<th>Clave</th>
+					<th>Cantidad en existencia</th>
+					<th>Fecha de Registro</th>
+					<th>Precio por Unidad</th>
+					<th>Precio Total</th>
+					<th>Usos</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="inventario:${inventarios}">
+					<td th:text="${inventario.id}"></td>
+					<td th:text="${inventario.idseccat.cat}"></td>
+					<td th:text="${inventario.nom}"></td>
+			     	<td th:text="${inventario.area}"></td> 
+					<td th:text="${inventario.cla}"></td>
+					<td th:text="${inventario.candis}"></td>
+					<td th:text="${inventario.fere}"></td>
+					<td th:text="${inventario.pre}"></td>
+					<td th:text="${inventario.candis * inventario.pre}"></td>
+					<td th:text="${inventario.us}"></td>
+					
+					<td>
+						<a th:href="" >SOLICITAR MATERIAL</a>
+	     			</td>
+				</tr>
+			</tbody>
+        </table>
+    </div>
+</body>

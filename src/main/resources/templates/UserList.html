@@ -1,0 +1,58 @@
+<!DOCTYPE >
+<html>
+
+<head>
+	<title>Nuevo usuario</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" th:src="@{funcion.js}"></script>
+	<script type="text/javascript" th:src="@{busquedausuario.js}"></script>
+
+	<link rel="stylesheet" th:href="@{modal.css}">
+</head>
+<body>
+	<div th:replace="~{modal :: modalFrag}"></div>
+	<h1>Lista de Usuarios</h1>
+	
+	<th>BUSCAR:</th>		
+			
+		<form action="/user/buscar" method="post">
+		   <input type="text" name="buscar" placeholder="Buscar..." value="">
+		    <button type="submit">Buscar</button>
+		</form>
+			
+			<div class="search-box">
+			    <input type="text" id="buscar" name="buscar" placeholder="Buscar..." required oninput="realizarBusqueda()">
+			</div> 
+			
+	<div class="container">
+		<table border="2" width="90%">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Usuario</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Contraseña</th>
+					<th>Tipo de Usuario</th>
+					<th>Correo</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="usuario:${usuarios}">
+					<td th:text="${usuario.id}"></td>
+					<td th:text="${usuario.user}"></td>
+					<td th:text="${usuario?.usercorr?.nom}"></td>
+					<td th:text="${usuario?.usercorr?.ape}"></td>
+					<td th:text="${usuario.pass}"></td>
+					<td th:text="${usuario.tip}"></td>
+					<td th:text="${usuario.cor}"></td>
+					<td>
+						<a th:href="@{|/user/editar/${usuario.id}|}" >EDITAR</a>
+						<button th:onclick="'eliminar(' + ${usuario.id} +');'">ELIMINAR</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

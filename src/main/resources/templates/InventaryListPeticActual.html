@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+
+<head>
+	<title>Nuevo Material dentro del Inventario pp</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript" th:src="@{funcion3.js}"></script>
+	<script type="text/javascript" th:src="@{busquedamaterial.js}"></script>
+	
+	<link rel="stylesheet" th:href="@{modal.css}">
+</head>
+<body>
+	
+	<div th:replace="~{modal :: modalFrag}"></div>
+	<h1>Lista de Materiales Para solicitar Peticones y actualizacion de Materiales Disponibles</h1>
+		
+	<th>BUSCAR:</th>		
+		
+	<form action="/peticiones/buscar" method="post">
+	   <input type="text" name="buscar" placeholder="Buscar..." value="">
+	    <button type="submit">Buscar</button>
+	</form>
+	
+		<div class="search-box">
+		    <input type="text" id="buscar" name="buscar" placeholder="Buscar..." required oninput="realizarBusqueda()">
+		</div>
+		
+	
+	<div class="container">
+		<table border="2" width="90%">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>seccion</th>
+					<th>Nombre del material</th>
+					<th>Area de ubicacion:</th> 
+					<th>Clave</th>
+					<th>Cantidad Total Registrada</th>
+					<th>Fecha de Registro</th>
+					<th>Precio por Unidad</th>
+					<th>Precio Total</th>
+					<th>Usos</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="inventario:${inventarios}">
+					<td th:text="${inventario.id}"></td>
+					<td th:text="${inventario.idseccat.cat}"></td>
+					<td th:text="${inventario.nom}"></td>
+			     	<td th:text="${inventario.area}"></td> 
+					<td th:text="${inventario.cla}"></td>
+					<td th:text="${inventario.tocan}"></td>
+					<td th:text="${inventario.fere}"></td>
+					<td th:text="${inventario.pre}"></td>
+					<td th:text="${inventario.tocan * inventario.pre}"></td>
+					<td th:text="${inventario.us}"></td>
+				</tr>
+			</tbody>
+        </table>
+    </div>
+</body>
+</html>

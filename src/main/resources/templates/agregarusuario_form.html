@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<header>
+		<div class="container">
+			<h2>AGREGAR NUEVO USUSARIO</h2>
+		</div>		
+	</header> 
+     	<div class="container"> 
+			
+			<form action="" method="POST">
+				<div class="form-group"> 
+					<input type="text" class="form-group" placeholder="nombre del usuario">
+            	</div>
+				<div class="form-group"> 
+					<input type="text" class="form-group" placeholder="apellido del usuario">
+				</div> 
+				<div class="form-group"> 
+					<input type="text" class="form-group" placeholder="id_usuarios_admin">
+				</div>
+				 
+			</form>
+			
+     	</div>
+<html/> 
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nuevo usuario</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<h1>Agregar nuevo usuario</h1>
+	<br>
+	<form method="POST" action="addUser">
+		<p>Nombre:</p><input type="text" name="nom">
+		<p>Apellido:</p><input type="text" name="ape">
+		<p>Usuario:</p><input type="text" name="user">
+		<p>Contraseña:</p><input type="password" name="pass">
+		<p>Tipo de Usuario:</p><input type="text" name="tip">
+		<p>Correo:</p><input type="text" name="cor">
+		<p>Crear Nuevo Usuario:</p><input type="submit" value="crear">
+	</form>
+	<br>
+	<div th:if="${mensaje != null}">
+		<p th:text="${mensaje}" style="color: blueviolet;"></p>
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title align="center">Nuevo registro de inventario</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<!--	<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">-->
+
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h1>Agregar nuevo registro de material al inventario</h1>
+		<br>
+		<form method="POST" action="addinventario">
+			<p>Nombre:</p><input type="text" name="nombre"> 
+			<p>Clave:</p><input type="text" name="clave">
+			<p>Cantidad Disponible:</p><input type="number" name="cantidad_disponible"> 
+			<p>fecha de Registro:</p><input type="date" name="fecha_registro">
+			<p>Precio Unitario:</p><input type="number" name="precio">
+			<p>Usos Solicitados:</p><textarea input type="text" name="uso" rows="10" cols="50">Escriba aqui los usos del material Registrado</textarea>	
+			
+			<p>Categoria:</p><input type="text" name="categoria">
+			<select class="Categoria" id="idseccat" name="categoria">
+			    <option value="0">SELECCIONAR CATEGORIA</option>
+			    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.cat}"></option>
+			</select>
+			<p>Area:</p><input type="text" name="area">						
+			<p>Agregar Nuevo Registro de Inventario:</p><input type="submit" value="crear">
+			
+		</form>
+		<br>
+		<div th:if="${mensaje != null}">
+			<p th:text="${mensaje}" style="color: blueviolet;"></p>
+		</div> 
+		
+		<div class="container">
+					<table border="2" width="90%">
+					    <thead >
+							<tr>
+								<th>id</th>
+								<th>seccion</th>
+								<th>Nombre del material</th>
+								<th>Clave</th>
+								<th>Cantidad en existencia</th>
+								<th>Fecha de Registro</th>
+								<th>Precio por Unidad</th>
+								<th>Precio Total</th>
+								<th>Usos</th>
+								<th>Area</th>
+							</tr>
+						</thead>
+						        <tbody>
+								<tr th:each="inventario:${inventarios}">
+									<td th:text="${inventario.id}"></td>
+									<td th:text="${inventario.idseccat.cat}"></td>
+									<td th:text="${inventario.nom}"></td>
+									<td th:text="${inventario.cla}"></td>
+									<td th:text="${inventario.candis}"></td>
+									<td th:text="${inventario.fere}"></td>
+									<td th:text="${inventario.pre}"></td>
+									<td>80</td>
+									<td th:text="${inventario.us}"></td>
+									<td th:text="${inventario.area}"></td>	
+								</tr>
+						 </tbody>
+			      </table>
+			 </div>				
+	  </body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Nuevo Categoria</title>	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">	
+	
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<h1>Agregar nuevo categoria</h1>
+	<br>
+	<form method="POST" action="addCategory">
+		<p>Categoria:</p><input type="text" name="cat">
+		<p>Crear Nueva Categoria de Material:</p><input type="submit" value="crear">
+	</form>
+	<br>
+	<div th:if="${mensaje != null}">
+		<p th:text="${mensaje}" style="color: rgb(64, 0, 128);"></p>
+	</div>
+	
+	<div class="container">		
+		<h2 class="text-center">Lista de Categorias Registradas</h2>
+			<table border="2" width="90%">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>categoria</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="categoria:${categorias}">
+						<td th:text="${categoria.id}"></td>
+						<td th:text="${categoria.cat}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+</body>
+
+</html>

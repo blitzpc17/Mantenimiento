@@ -1,0 +1,67 @@
+.containerModal {
+	display: none; /*Oculto por default*/
+	position: fixed; /*Se mantiene en el lugar*/
+	z-index: 1; /*Se mantiene sobre todo*/
+	left: 0; /*Se sobrepone en la posicion 0 de la izquierda a derecha*/
+	top: 0; /*Se sobrepone en la posicion 0 de arriba hacia abajo*/
+	width: 100%; /* ocupa todo el ancho */
+	height: 100%; /* ocupa todo el alto */
+ 	padding-top: 100px;
+	overflow: auto; /* habilita el scroll si es necesario*/
+	background-color: rgba(0, 0, 0, 0.4); /*opacidad*/
+}
+
+
+.contentModal {
+	position: relative;
+	background-color: #fefefe;
+	margin: auto;
+	border: 1px solid #888;
+	border-radius: 5px;
+	width: 30%;
+	height: 30%;
+}
+
+.close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	color: #aaa;
+	font-size: 30px;
+	font-weight: bold;
+}
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.message {
+	position: absolute;
+	top: 20%;
+	width: 100%;
+	text-align: center;
+	font-size: 18px;
+}
+
+.btn {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	font-size: 20px;
+	text-decoration: none;
+	font-family: serif;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.btnDelete:hover {
+	background-color: red;
+	border: 1px solid red;
+}
+
+.btnDelete {
+	background-color: black;
+}

@@ -1,0 +1,46 @@
+
+.btn-azul {
+	background-color: #007BFF; /* Azul */
+	color: white;
+	border: none;
+}
+.btn-verde {
+	background-color: #28a745; /* Verde */
+	color: white;
+	border: none;
+}
+.btn-naranja {
+	background-color: #FD7E14; /* Naranja */
+	color: white;
+	border: none;
+}
+.btn-morado {
+	background-color: #6f42c1; /* Morado */
+	color: white;
+	border: none;
+} 
+.btn-rojo {
+			background-color: rgb(255, 0, 0); /* Morado */
+			color: white;
+			border: none;
+		}
+		
+		.btn-negro {
+							background-color: rgb(64, 0, 64); /* Morado */
+							color: white;
+							border: none;
+						}
+.btn:hover {
+	opacity: 0.85; /* Efecto hover */
+}  
+
+.btn-gradiente {
+	background: linear-gradient(45deg, #ff416c, #ff4b2b); /* Degradado rojo/naranja */
+	color: white;
+	border: none;
+	transition: 0.3s;
+}
+
+.btn-gradiente:hover {
+	transform: scale(1.05);
+} 

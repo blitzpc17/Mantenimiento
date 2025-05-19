@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title align="center">Nuevo Solicitud de Peticion</title>
+		<meta charset="UTF-8">
+	</head>  
+	<body class="container mt-4">
+	    <h1 class="text-center">Solicitar Nueva Peticion</h1>
+		<br>
+		<form method="POST" action="/nombre/peticion/addpeticion" class="border p-4 rounded shadow-sm">
+
+		<p>Nombre del Solicitante:</p><input type="text" name="nombre_del_solicitante"> 
+		<p>Area Solicitada:</p><input type="text" name="area_solicitada">
+		<p>Cantidad Solicitada:</p><input type="number" name="cantidad_solicitada">
+		<p>Fecha de Peticion:</p><input type="date" name="fecha_de_peticion">
+		<p>Especificacion de Usos:</p><input type="text" name="especificacion"> 
+		<p>Fecha de elaboracion:</p><input type="date" name="fecha_de_elaboracion">	
+		
+			<hr>
+			       <h3>Información del Inventario</h3>
+			       
+			       <p><strong>Cantidad Disponible:</strong> <span th:text="${inventario.tocan}"></span></p>
+				   <p><strong>Usos Asignados:</strong> <span th:text="${inventario.us}"></span></p>
+				   <p><strong>Precio Por Unidad:</strong> <span th:text="${inventario.pre}"></span></p>
+
+			       <input type="hidden" name="id" th:value="${inventario.id}">
+	
+			
+	    <p>Solicitar Peticion de Material Solicitado:</p><input type="submit" value="crear">
+		</form>
+	 <br> 
+	 
+	 <div th:if="${mensaje != null}">
+	 			<p th:text="${mensaje}" style="color: blueviolet;"></p>
+	 </div> 
+	 
+   </body> 
+   
+   
+</html>

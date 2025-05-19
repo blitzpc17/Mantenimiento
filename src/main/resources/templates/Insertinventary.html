@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title align="center">Nuevo registro de inventario</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<!--	<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">-->
+
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h1>Agregar nuevo registro de material al inventario</h1>
+		<br>
+		<form method="POST" action="addinventario">
+			<p>Nombre:</p><input type="text" name="nombre"> 
+			<p>Clave:</p><input type="text" name="clave">
+			<p>Cantidad Total Registrada:</p><input type="number" name="total_cantidad"> 
+			<p>fecha de Registro:</p><input type="date" name="fecha_registro">
+			<p>Precio Unitario:</p><input type="number" step="any" name="precio">
+			<p>Usos Solicitados:</p><textarea input type="text" name="uso" rows="10" cols="50">Escriba aqui los usos del material Registrado</textarea>			
+			<p>Categoria:</p>
+			<select class="Categoria" id="idseccat" name="categoria">
+			    <option value="0">SELECCIONAR CATEGORIA</option>
+			    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.cat}"></option>
+			</select>
+			<p>Area:</p><input type="text" name="area">						
+			<p>Agregar Nuevo Registro de Inventario:</p><input type="submit" value="crear">
+			
+		</form>
+		<br>
+		<div th:if="${mensaje != null}">
+			<p th:text="${mensaje}" style="color: blueviolet;"></p>
+		</div> 
+		
+		<div class="container">
+			<h2 class="text-center">Lista de Materiales Registrados</h2>
+			  <div class="table-responsive">
+				<table border="2" width="90%">
+					    <thead >
+							<tr>
+								<th>id</th>
+								<th>seccion</th>
+								<th>Nombre del material</th>
+								<th>Clave</th>
+								<th>Cantidad Total Registrada</th>
+								<th>Fecha de Registro</th>
+								<th>Precio por Unidad</th>
+								<th>Precio Total</th>
+								<th>Usos</th>
+								<th>Area</th>
+							</tr>
+						</thead>
+						        <tbody>
+								<tr th:each="inventario:${inventarios}">
+									<td th:text="${inventario.id}"></td>
+									<td th:text="${inventario.idseccat.cat}"></td>
+									<td th:text="${inventario.nom}"></td>
+									<td th:text="${inventario.cla}"></td>
+									<td th:text="${inventario.tocan}"></td>
+									<td th:text="${inventario.fere}"></td>
+									<td th:text="${inventario.pre}"></td>
+									<td th:text="${inventario.tocan * inventario.pre}"></td>
+									<td th:text="${inventario.us}"></td>
+									<td th:text="${inventario.area}"></td>	
+								</tr>
+						 </tbody>
+			        </table>
+			   </div>	
+		  </div>				
+	  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

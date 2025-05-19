@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>ACTUALIZACION DE CATEGORIA</title>
+	<meta charset="UTF-8">
+</head>
+
+<form method="POST" th:action="@{|/cat/editar/${categorias.id}|}" class="formulario">
+	
+	<div class="form-group my-3">
+		<p>Categoria:</p><input th:value="${categorias.cat}"type="text" class="form-control" name="cat">
+		<p>Editar Categoria:</p><input type="submit" value="editar">		
+	</div>		
+	</form>
+</html>	

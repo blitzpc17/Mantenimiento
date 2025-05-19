@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recuperar Contraseña</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Recuperar Contraseña</h1>
+    <form method="POST" action="/recuperar-contrasena">
+        Usuario: <input type="text" name="user" required>
+        <input type="submit" value="Recuperar Contraseña">
+    </form>
+    <br>
+    <div th:if="${mensaje != null}">
+        <p th:text="${mensaje}" style="color: red;"></p>
+    </div>
+    <br>
+    <a href="/accesslogin">Volver al login</a>
+</body>
+</html>
