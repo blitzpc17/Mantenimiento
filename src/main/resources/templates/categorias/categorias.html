@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section},  ~{::script},  ~{::link}, ~{::inline-style} )}">
+<head>
+	<title>Categorias</title>
+	<meta charset="UTF-8">	
+
+
+	<th:block layout:fragment="link">
+		<link href="https://cdn.datatables.net/v/bs4/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-fTqd416qRc9kwY299KdgUPsjOvS5bwkeE6jlibx2m7eL3xKheqGyU48QCFgZAyN4" crossorigin="anonymous"> 
+    </th:block>
+
+	<th:block th:fragment="inline-style"></th:block>
+
+</head>
+<body>
+
+	<section>
+
+		<div class="container">
+
+			<h1>Categorias</h1>	
+
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+				  <li class="breadcrumb-item"><a href="/menuprincipal">Inicio</a></li>
+				  <!-- <li class="breadcrumb-item"><a href="#">Library</a></li>-->
+				  <li class="breadcrumb-item active" aria-current="page">Categorias</li>
+				</ol>
+			</nav>
+
+
+			<button class="btn btn-primary" onclick="VerRegistro()"><i class="fas fa-add"></i> Nuevo Registro</button>
+
+		
+
+
+
+		
+			<div class="table-responsive mt-5">
+				<table width="100%" class="table table-bordered table-hover" id="tb-registros">
+					<thead class="thead-dark">
+						<tr>
+							<th>No</th>
+							<th>Nombre</th>							
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+
+
+
+
+		</div>
+
+
+
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="md-registro" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div class="modal-body">
+						<form id="frm-registro">
+
+							<input type="hidden" name="idRegistro" id="idRegistro">
+
+							<div class="row">
+
+							
+
+								<div class="col">
+									<label for="">Nombre:</label>
+									<input type="text" class="form-control" id="nombre" name="nombre">
+								</div>
+
+								
+							</div>
+
+							
+					
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarFormulario()">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Guardar</button>
+							</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	
+	</section>
+
+
+	
+ <!-- Scripts al final de <body> -->
+	<th:block th:fragment="script">
+
+
+	<script src="https://cdn.datatables.net/v/bs4/dt-2.2.2/datatables.min.js" integrity="sha384-uAn6fsp1rIJ6afAYV0S5it5ao101zH2fViB74y5tPG8LR2FTMg+HXIWRNxvZrniN" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+
+		<script>
+
+			let codeReader = null;
+			let activeStream = null;
+			let table;
+
+			let data;
+			let objSeleccionado;
+
+
+			$(document).ready(function () {
+				console.log("processing")
+				ListarRegistros();
+
+				$('#frm-registro').on('submit', function(e){
+					e.preventDefault();
+					Guardar();
+				})				
+
+
+			});	
+
+
+			function ListarRegistros(){
+				$.ajax({
+					type: "GET",
+					url: "/categorias/listar",
+					success: function (res) {
+						console.log(res)
+
+						table = $('#tb-registros')
+
+						if ($.fn.DataTable.isDataTable('#tb-registros')) {
+							table.DataTable().destroy();  
+							$('#tb-registros tbody').empty();                      
+						}
+
+						data = res;
+
+						let html = "";
+						$.each(res, function (i, val) { 
+                            console.log(val)
+							 html+=`<tr>
+										<td>${i+1}</td>
+										<td>${val.nombre}</td>										
+										<td>
+											<button class="btn btn-warning" onclick="VerRegistro(${val.idCategoria})"><i class="fas fa-edit"></i></button>
+											<button class="btn btn-danger" onclick="eliminar(${val.idCategoria})"><i class="fas fa-trash"></i></button>
+										</td>
+									</tr>`
+						});//SOLICITAR CATIDAD DE MATERIAL SOLICITADO
+
+						$('#tb-registros tbody').html(html)
+
+						table = $('#tb-registros').DataTable({
+                            deferRender: true,
+                          //  responsive: true,
+                            language: {
+                                url: "/assets/json/DataTables-Spanish.json" 
+                            }
+                        });
+
+
+					}
+				});
+
+
+			}
+
+
+			function VerRegistro(id = null){			
+
+				if(id == null){
+					$('.modal-title').text('Nuevo registro')
+                    LimpiarFormulario();
+				}else{					
+					SetData(id);
+					$('.modal-title').text('Modificar registro')
+
+				}
+
+				$('#md-registro').modal('toggle')
+
+			}
+
+		
+
+			function SetData(id){
+				objSeleccionado = data.find(x=>x.idCategoria==id);
+
+				$('#nombre').val(objSeleccionado.nombre)
+
+				$('#idRegistro').val(objSeleccionado.idCategoria)
+			}
+
+
+			function Guardar(){
+
+				const data = {
+
+					"idCategoria":$('#idRegistro').val()==''?null:$('#idRegistro').val(),
+					"nombre":$('#nombre').val(),
+					
+				}
+
+                console.log(data)
+
+
+				$.ajax({
+					type: "POST",
+					url: "/categorias/save",
+					data: JSON.stringify(data),
+					contentType: "application/json",
+					success: function (response) {
+						console.log(response)
+
+						Swal.fire({
+							title:"Acción realizada",
+							icon:"success",
+							text:response
+						}).then(()=>{
+							LimpiarFormulario();
+							ListarRegistros();
+							$("#md-registro").modal('toggle')
+						})
+					},
+					 error: function(xhr) {
+                        let errorMsg = 'Error al guardar el registro';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            errorMsg = xhr.responseText;
+                        }
+
+
+						Swal.fire({
+							title:"Error en la operación",
+							icon:"error",
+							text:errorMsg
+						})
+                        
+                    }
+				});
+			}
+
+
+			function eliminar(id){
+
+				Swal.fire({
+					title: '¿Estás seguro?',
+					text: "¡No podrás revertir esta acción!",
+					icon: 'question', // question, warning, error, success, info
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Sí, continuar',
+					cancelButtonText: 'Cancelar',
+					allowOutsideClick: false // Evita cerrar haciendo clic fuera
+					}).then((result) => {
+					if (result.isConfirmed) {
+						const data = {
+							"idCategoria":id,
+						}
+
+						$.ajax({
+							type: "POST",
+							url: "/categorias/delete",
+							data: JSON.stringify(data),
+							contentType: "application/json",
+							success: function (response) {
+								console.log(response)
+
+								Swal.fire({
+									title:"Acción realizada",
+									icon:"success",
+									text:response
+								}).then(()=>{
+									ListarRegistros();
+								})
+							},
+							error: function(xhr) {
+								let errorMsg = 'Error al intentar elimiinar el registro';
+								if (xhr.responseJSON && xhr.responseJSON.message) {
+									errorMsg = xhr.responseJSON.message;
+								} else if (xhr.responseText) {
+									errorMsg = xhr.responseText;
+								}
+
+
+								Swal.fire({
+									title:"Error en la operación",
+									icon:"error",
+									text:errorMsg
+								})
+								
+							}
+						});
+						
+					} else if (result.dismiss === Swal.DismissReason.cancel) {
+						// Lógica si el usuario cancela
+						Swal.fire('Cancelado', 'Acción cancelada', 'error');
+					}
+				});
+
+
+				
+			}
+		
+
+
+			function LimpiarFormulario(){
+				$('#idRegistro').val('')
+				$('#nombre').val('')			
+			}
+
+
+		
+
+
+		</script>
+        
+    </th:block>
+	
+	
+	
+</body>
+</html>

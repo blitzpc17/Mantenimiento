@@ -2,32 +2,37 @@ package com.example.demo.dto;
 
 public class CategoriaDTO {
 
-    private Integer IdCategoria;
-    private String Nombre;
+    private Integer idCategoria;
+    private String nombre;
 
     public CategoriaDTO() {
 
     }
 
     public CategoriaDTO(Integer idCategoria, String nombre) {
-        IdCategoria = idCategoria;
-        Nombre = nombre;
+        this.idCategoria = idCategoria;
+        this.nombre = nombre;
     }
 
     public Integer getIdCategoria() {
-        return IdCategoria;
+        return idCategoria;
     }
 
     public void setIdCategoria(Integer idCategoria) {
-        IdCategoria = idCategoria;
+        this.idCategoria = idCategoria;
     }
 
     public String getNombre() {
-        return Nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "CategoriaDTO [idCategoria=" + idCategoria + ", nombre=" + nombre + "]";
     }
 
 }

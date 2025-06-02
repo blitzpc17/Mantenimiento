@@ -393,6 +393,7 @@
 
 				if(id == null){
 					$('.modal-title').text('Nuevo registro')
+					LimpiarFormulario();
 				}else{					
 					SetData(id);
 					$('.modal-title').text('Modificar registro')

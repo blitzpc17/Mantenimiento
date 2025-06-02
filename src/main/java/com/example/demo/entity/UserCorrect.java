@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,22 +22,24 @@ public class UserCorrect {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idautorizado")
 	private Integer id;
-	
+
 	@Column(name = "nombre")
 	private String nom;
 
 	@Column(name = "apellido")
-	private String ape; 
-	 
-    @OneToOne
-    @JoinColumn(name = "id_usuarios_admin")
-    private UserEntity usen; 
-    
-   /* @OneToOne
+	private String ape;
+
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_usuarios_admin")
-	private UserEntity idusuariosadm; */
-    
-    
+	private UserEntity usen;
+
+	/*
+	 * @OneToOne
+	 * 
+	 * @JoinColumn(name = "id_usuarios_admin")
+	 * private UserEntity idusuariosadm;
+	 */
+
 	public Integer getId() {
 		return id;
 	}
@@ -68,7 +71,5 @@ public class UserCorrect {
 	public void setUsen(UserEntity usen) {
 		this.usen = usen;
 	}
-	
 
 }
-
