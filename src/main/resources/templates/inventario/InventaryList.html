@@ -358,7 +358,7 @@
 										<td>${val.usos}</td>
 										
 										<td>
-											<a class="btn btn-primary" th:href="@{|/nombre/peticion/${val.idMateriales}|}"><i class="fas fa-phone-volume"></i></a> 
+											<a class="btn btn-primary" th:href="@{|/peticiones/index?materialId=${val.idMateriales}|}"><i class="fas fa-phone-volume"></i></a> 
 											<button class="btn btn-warning" onclick="VerRegistro(${val.idMateriales})"><i class="fas fa-edit"></i></button>
 											<button class="btn btn-danger" onclick="eliminar(${val.idMateriales})"><i class="fas fa-trash"></i></button>
 											<button class="btn btn-secondary" onclick="GeneratEtiqueta(${val.idMateriales})" ><i class="fas fa-barcode"></i></button>
