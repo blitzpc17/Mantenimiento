@@ -382,8 +382,8 @@
 										<td>${val.especificacion}</td>	
 										<td>${val.fechaElaboracion}</td>	
 										<td>
-											<button class="btn btn-warning" onclick="VerRegistro(${val.idCategoria})"><i class="fas fa-edit"></i></button>
-											<button class="btn btn-danger" onclick="eliminar(${val.idCategoria})"><i class="fas fa-trash"></i></button>
+											<button class="btn btn-warning" onclick="GenerarPdf(${val.peticionesId})"><i class="fas fa-edit"></i></button>
+											<button class="btn btn-danger" onclick="eliminar(${val.peticionesId})"><i class="fas fa-trash"></i></button>
 										</td>
 									</tr>`
 						});//SOLICITAR CATIDAD DE MATERIAL SOLICITADO
@@ -517,12 +517,12 @@
 					}).then((result) => {
 					if (result.isConfirmed) {
 						const data = {
-							"idCategoria":id,
+							"peticionesId":id
 						}
 
 						$.ajax({
 							type: "POST",
-							url: "/categorias/delete",
+							url: "/peticiones/delete",
 							data: JSON.stringify(data),
 							contentType: "application/json",
 							success: function (response) {
