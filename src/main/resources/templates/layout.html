@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  th:fragment="layout(title, content, scripts, links, inlineStyles,  extraVars )" xmlns:th="http://www.thymeleaf.org">
+<html  th:fragment="layout(title, content, scripts, links, inlineStyles )" xmlns:th="http://www.thymeleaf.org">
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
     <th:block th:replace="${inlineStyles} ?: ~{}"></th:block>
 
 </head>
-<body th:with="materialId=${extraVars?.materialId}">
+<body th:data-material-id="${idRecibido} ?:  ~{}">
 
 
 

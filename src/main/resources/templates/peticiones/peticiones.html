@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::title}, ~{::section}, ~{::script}, ~{::link}, ~{::inline-style}, ${ {materialId: materialId} })">
+      th:replace="~{layout :: layout(~{::title}, ~{::section}, ~{::script}, ~{::link}, ~{::inline-style}  )}">
 <head>
 	<title>Gestión de peticiones</title>
 	<meta charset="UTF-8">	
@@ -81,17 +81,91 @@
 							</button>
 					</div>
 					<div class="modal-body">
+						<h4>Datos de la solicitud</h4>
+
+						<p>*Seleccione el material a solicitar</p>							
+                        <div class="table-responsive">
+                            <table  id="tb-materiales" class="table">
+                                <thead>
+                                    <th>No.</th>
+                                    <th>Descripcion</th>
+                                    <th>Tipo</th>
+                                    <th>No. Serie</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+									<th>Acción</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+
 						<form id="frm-registro">
+
+							<p>Material solicitado</p>
+							<hr>
+							<div class="row">
+								<div class="col">
+									<label for="">Clave:</label>
+									<input type="text" class="form-control" id="clave" readonly>
+								</div>
+
+                                <div class="col">
+									<label for="">Descripción:</label>
+									<input type="text" class="form-control" id="descrip" readonly>
+								</div>								
+							</div>
+							<div class="row">
+								<div class="col">
+									<label for="">Sección:</label>
+									<input type="text" class="form-control" id="seccion" readonly>
+								</div>
+                                <div class="col">
+									<label for="">Area:</label>
+									<input type="text" class="form-control" id="area" readonly>
+								</div>								
+							</div>
+							<div class="row">
+								<div class="col">
+									<label for="">Tipo:</label>
+									<input type="text" class="form-control" id="tipo" readonly >
+								</div>
+
+                                <div class="col">
+									<label for="">No. Serie:</label>
+									<input type="text" class="form-control" id="noSerie" readonly>
+								</div>
+
+								<div class="col">
+									<label for="">Precio Unitario:</label>
+									<input type="text" class="form-control" id="precio" readonly>
+								</div>
+								
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<label for="">Cantidad a solicitar:</label>
+									<input type="number" class="form-control" id="cant" placeholder="0" >
+								</div>
+
+                                <div class="col">
+									<label for="">En existencia:</label>
+									<input type="text" class="form-control" id="existencia" readonly>
+								</div>
+								
+							</div>
+
+							<hr>
 
 							<input type="hidden" name="idRegistro" id="idRegistro">
 
-                            <div class="form-control">
+                            <div class="form-group">
 									<label for="">Solicitante:</label>
 									<input type="text" class="form-control" id="sol">
 								</div>
 
-							<div class="row">							
-
+							<div class="row">
 								<div class="col">
 									<label for="">Fecha Emisión:</label>
 									<input type="text" class="form-control" id="fechaE" >
@@ -99,30 +173,15 @@
 
                                 <div class="col">
 									<label for="">Area solicitante:</label>
-									<input type="text" class="form-control" id="area">
+									<input type="text" class="form-control" id="areaSol">
 								</div>						
 
 								<div class="col">
-									<label for="">Especificación de uso:</label>
-									<input type="text" class="form-control" id="esp">
+									<label for="">Uso:</label>
+									<input type="text" class="form-control" id="uso">
 								</div>
 								
 							</div>
-
-                            <div class="table-responsive">
-                                <table  id="tb-material" class="table">
-                                    <thead><!-- 
-                                        <th>No.</th>
-                                        <th>Descripcion</th>
-                                        <th>Tipo</th>
-                                        <th>No. Serie</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>-->
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-							
 					
 					</div>
 					<div class="modal-footer">
@@ -155,40 +214,121 @@
 			let activeStream = null;
 			let table;
             let materialSeleccionado;
+			let solicitudSeleccionada;
+			let materialIdPrecargado;
+			
             let tableMateriales;
 
 			let data;
-			let objSeleccionado;
+			let dataMateriales;
+
+			
 
 
 			$(document).ready(function () {
 				console.log("processing")
+
+                materialIdPrecargado = $('body').data('material-id');
+				console.log("Material ID:", materialIdPrecargado);
+				
 				ListarRegistros();
-
-
-                  console.log("Valor de materialId:", document.querySelector('meta[name="materialId"]'));
+				ListarMateriales();
 
 				$('#frm-registro').on('submit', function(e){
 					e.preventDefault();
 					Guardar();
-				})				
+				})	
+				
+				$('#cant').on('change', function(){
+					if(solicitudSeleccionada){
+						solicitudSeleccionada.cantidad = $('#cant').val()
+					}
+				})
 
 
 			});	
 
 
             function ListarMateriales(){
+				$.ajax({
+					type: "GET",
+					url: "/inventario/listar",
+					success: function (res) {
 
-            }
+						console.log(res)
+						dataMateriales = res;
 
-            function PreCargar(){
-                if(""==""){
-                    
-                }
-            }
+						if(materialIdPrecargado){
 
-            function ObtenerDataMaterial(id){
+							materialSeleccionado = res.find(x=>x.idMateriales==materialIdPrecargado);
+							PreCargar(materialSeleccionado);
+							$("#md-registro").modal('toggle')
+							$('.modal-title').text('Nuevo registro')
 
+						}
+
+							tableMateriales = $('#tb-materiales')
+
+							if ($.fn.DataTable.isDataTable('#tb-materiales')) {
+								tableMateriales.DataTable().destroy();  
+							
+								$('#tb-materiales tbody').empty();                      
+							}						
+
+							let html = "";
+							$.each(res, function (i, val) { 
+								console.log(val)
+								html+=`<tr>
+											<td>${i+1}</td>
+											<td>${val.nombreMaterial}</td>		
+											<td>${ObtenerTipoMaterial(val.tipoMaterial)}</td>
+											<td>${val.noSerie??""}</td>
+											<td>${FormatearNumeros(val.cantidad)}</td>
+											<td>${FormatearNumerosCurrency(val.precioUnitario)}</td>								
+											<td>
+												<button class="btn btn-primary" onclick="SeleccionarMaterial(${val.idMateriales})"><i class="fas fa-check"></i></button>												
+											</td>
+										</tr>`
+							});
+
+							$('#tb-materiales tbody').html(html)
+
+							tableMateriales = $('#tb-materiales').DataTable({
+								deferRender: true,
+							//  responsive: true,
+								language: {
+									url: "/assets/json/DataTables-Spanish.json" 
+								}
+							});
+
+
+				
+
+
+						
+						
+
+					}
+				});
+
+
+			}
+
+            function PreCargar(obj){	
+				console.log("precargar")
+				console.log(obj)
+
+				$('#clave').val(obj.clave)
+				$('#descrip').val(obj.nombreMaterial)
+				$('#seccion').val(obj.seccion)//obtener nombre seccion
+				$('#area').val(obj.areaUbicacion)
+				$('#tipo').val(ObtenerTipoMaterial(obj.tipoMaterial))//obtener tipo material
+				$('#noSerie').val(obj.noSerie??'')
+				$('#precio').val(FormatearNumerosCurrency(obj.precioUnitario) )//formatear
+				$('#cant').val()
+				$('#existencia').val(FormatearNumeros(obj.cantidad))//formatear
+
+				
             }
 
             function DibujarEncabezadoMateriales(pre){
@@ -213,7 +353,7 @@
 			function ListarRegistros(){
 				$.ajax({
 					type: "GET",
-					url: "/categorias/listar",
+					url: "/peticiones/listar",
 					success: function (res) {
 						console.log(res)
 
@@ -231,7 +371,16 @@
                             console.log(val)
 							 html+=`<tr>
 										<td>${i+1}</td>
-										<td>${val.nombre}</td>										
+										<td>${val.nombreSolicitante}</td>	
+										<td>${val.nombreMaterial}</td>	
+										<td>${val.claveMaterial}</td>	
+										<td>${val.areaSolicitada}</td>	
+										<td>${FormatearNumeros(val.cantidadSolicitada)}</td>	
+										<td>${FormatearNumerosCurrency(val.precioUnitario)}</td>	
+										<td>${val.usoMaterial}</td>	
+										<td>${val.fechaPeticion}</td>										
+										<td>${val.especificacion}</td>	
+										<td>${val.fechaElaboracion}</td>	
 										<td>
 											<button class="btn btn-warning" onclick="VerRegistro(${val.idCategoria})"><i class="fas fa-edit"></i></button>
 											<button class="btn btn-danger" onclick="eliminar(${val.idCategoria})"><i class="fas fa-trash"></i></button>
@@ -274,62 +423,82 @@
 
 		
 
-			function SetData(id){
-				objSeleccionado = data.find(x=>x.idCategoria==id);
-
-				$('#nombre').val(objSeleccionado.nombre)
-
-				$('#idRegistro').val(objSeleccionado.idCategoria)
+			function SetDataSolicitud(){
+				$('#idRegistro').val('')
+				$('#sol').val('')
+				$('#fechaE').val('')
+				$('#area').val('')
+				$('#esp').val('')
 			}
 
 
 			function Guardar(){
 
-				const data = {
-
-					"idCategoria":$('#idRegistro').val()==''?null:$('#idRegistro').val(),
-					"nombre":$('#nombre').val(),
-					
-				}
-
-                console.log(data)
-
-
-				$.ajax({
-					type: "POST",
-					url: "/categorias/save",
-					data: JSON.stringify(data),
-					contentType: "application/json",
-					success: function (response) {
-						console.log(response)
-
+				if(!materialSeleccionado){
 						Swal.fire({
-							title:"Acción realizada",
-							icon:"success",
-							text:response
-						}).then(()=>{
-							LimpiarFormulario();
-							ListarRegistros();
+							title:"Revisa tu información",
+							icon:"warning",
+							text:"No has seleccionado el material a solicitar"
+						}).then(()=>{							
 							$("#md-registro").modal('toggle')
 						})
-					},
-					 error: function(xhr) {
-                        let errorMsg = 'Error al guardar el registro';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMsg = xhr.responseJSON.message;
-                        } else if (xhr.responseText) {
-                            errorMsg = xhr.responseText;
-                        }
+				}else{
+
+					const data = {
+						"peticionesId":$('#idRegistro').val()==''?null:$('#idRegistro').val(),
+						"areaSolicitada":$('#areaSol').val(),
+						"nombreSolicitante":$('#sol').val(),
+						"cantidadSolicitada":$('#cant').val(),
+						"fechaPeticion":$('#fechaE').val(),
+						"especificacion":$('#uso').val(),
+						"fechaElaboracion":null,
+						"cantidadDisponible":$('#existencia').val(),
+						"materialId":materialSeleccionado.idMateriales
+						
+					}
+
+					console.log(data)
+
+					$.ajax({
+						type: "POST",
+						url: "/peticiones/save",
+						data: JSON.stringify(data),
+						contentType: "application/json",
+						success: function (response) {
+							console.log(response)
+
+							Swal.fire({
+								title:"Acción realizada",
+								icon:"success",
+								text:response
+							}).then(()=>{
+								LimpiarFormulario();
+								ListarRegistros();
+								ListarMateriales();
+								$("#md-registro").modal('toggle')
+							})
+						},
+						error: function(xhr) {
+							let errorMsg = 'Error al guardar el registro';
+							if (xhr.responseJSON && xhr.responseJSON.message) {
+								errorMsg = xhr.responseJSON.message;
+							} else if (xhr.responseText) {
+								errorMsg = xhr.responseText;
+							}
 
 
-						Swal.fire({
-							title:"Error en la operación",
-							icon:"error",
-							text:errorMsg
-						})
-                        
-                    }
-				});
+							Swal.fire({
+								title:"Error en la operación",
+								icon:"error",
+								text:errorMsg
+							})
+							
+						}
+					});
+
+				}
+
+				
 			}
 
 
@@ -398,8 +567,58 @@
 
 
 			function LimpiarFormulario(){
+
+
+				console.log("limpiar formulariooooo")
+
 				$('#idRegistro').val('')
-				$('#nombre').val('')			
+				$('#sol').val('')	
+				$('#fechaE').val('')	
+				$('#areaSol').val('')	
+				$('#uso').val('')
+				
+				$('#clave').val('')	
+				$('#descrip').val('')	
+				$('#seccion').val('')	
+				$('#area').val('')	
+				$('#tipo').val('')	
+				$('#noSerie').val('')
+				$('#precio').val('')	
+				$('#existencia').val('')	
+				$('#cant').val('')	
+
+
+				
+				materialIdPrecargado = undefined 
+				materialId = undefined
+				solicitudSeleccionada = undefined
+				materialSeleccionado = undefined
+
+			}
+
+			function ObtenerTipoMaterial(valor){
+
+				switch(valor){
+					case 1: 
+						return "INSUMO";
+
+					case 2: 
+						return "HERRAMIENTA";
+
+					case 3: 
+						return "WHATEVER";
+				}
+			}
+
+			function SeleccionarMaterial(idMat){
+				materialSeleccionado = dataMateriales.find(x=>x.idMateriales==idMat);
+				PreCargar(materialSeleccionado);
+
+				materialIdPrecargado = idMat;
+
+				if(solicitudSeleccionada){
+					solicitudSeleccionada.inventarioId = idMat;
+				}
 			}
 
 

@@ -118,5 +118,12 @@ public class PeticionesEntity {
 		this.cantidis = cantidis;
 	}
 
+	@Override
+	public String toString() {
+		return "PeticionesEntity [id=" + id + ", aresol=" + aresol + ", nomsol=" + nomsol + ", cansol=" + cansol
+				+ ", fepe=" + fepe + ", espe=" + espe + ", feel=" + feel + ", cantidis=" + cantidis + ", totalcan="
+				+ totalcan + "]";
+	}
+
 	
 }
