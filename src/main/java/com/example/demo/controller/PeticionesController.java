@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
-import java.awt.PageAttributes.MediaType;
+//import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
-import java.net.http.HttpHeaders;
+//import java.net.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +37,7 @@ import com.example.demo.repository.PeticionesRepository;
 import com.example.demo.servicios.InventarioServicio;
 //import com.example.demo.servicios.PdfServicio;
 import com.example.demo.utils.Global;
+import com.example.demo.utils.ReporteTabularLogos;
 
 import jakarta.persistence.Column;
 
@@ -170,6 +174,30 @@ public class PeticionesController {
 		}
 
 	}
+
+
+
+	 @Autowired
+    private ReporteTabularLogos pdfService;
+
+	@GetMapping("/generate")
+    public ResponseEntity<byte[]> generatePdf() {
+        try {
+            byte[] pdf = pdfService.generatePdf();
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "documento.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdf);
+                    
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar PDF", e);
+        }
+    }
 
 
 
