@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import com.example.demo.dto.PeticionesDTO;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -30,7 +31,7 @@ import java.io.IOException;
 @Service
 public class ReporteTabularLogos {
 
-    public byte[] generatePdf() throws IOException {
+    public byte[] generatePdf(PeticionesDTO obj) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         
         // Configuración del documento tamaño carta
@@ -52,13 +53,15 @@ public class ReporteTabularLogos {
         DeviceRgb valueColor = new DeviceRgb(32, 32, 32);
         
         // Agregar filas de ejemplo
-        addRow(table, "Nombre:", "Juan Pérez", labelColor, valueColor);
-        addRow(table, "Email:", "juan.perez@example.com", labelColor, valueColor);
-        addRow(table, "Teléfono:", "+52 55 1234 5678", labelColor, valueColor);
-        addRow(table, "Dirección:", "Calle Falsa 123, CDMX", labelColor, valueColor);
-        addRow(table, "Descripción:", 
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        addRow(table, "Solicitante:", obj.getNombreSolicitante(), labelColor, valueColor);
+        addRow(table, "Material Sol. :", obj.getClaveMaterial() + " - "+obj.getNombreMaterial(), labelColor, valueColor);
+        addRow(table, "Area Sol. :", obj.getAreaSolicitada(), labelColor, valueColor);
+        addRow(table, "Cant. Sol. :", ""+obj.getCantidadSolicitada(), labelColor, valueColor);
+        addRow(table, "Precio Unitario:", "$ "+obj.getPrecioUnitario(),labelColor, valueColor);
+        addRow(table, "Usos:", obj.getUsoMaterial(),
             labelColor, valueColor);
+        addRow(table, "Fecha Emisión:", obj.getFechaPeticion(),labelColor, valueColor);
+        addRow(table, "Especificaciones:", obj.getEspecificacion(), labelColor, valueColor);
         
         document.add(table);
         document.close();

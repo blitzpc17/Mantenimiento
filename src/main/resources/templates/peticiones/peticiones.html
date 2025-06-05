@@ -382,7 +382,7 @@
 										<td>${val.especificacion}</td>	
 										<td>${val.fechaElaboracion}</td>	
 										<td>
-											<button class="btn btn-warning" onclick="GenerarPdf(${val.peticionesId})"><i class="fas fa-edit"></i></button>
+											<a class="btn btn-primary" target="_blank" href="/peticiones/generate?id=${val.peticionesId}"><i class="fas fa-file-pdf"></i></a> 
 											<button class="btn btn-danger" onclick="eliminar(${val.peticionesId})"><i class="fas fa-trash"></i></button>
 										</td>
 									</tr>`

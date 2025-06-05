@@ -181,13 +181,19 @@ public class PeticionesController {
     private ReporteTabularLogos pdfService;
 
 	@GetMapping("/generate")
-    public ResponseEntity<byte[]> generatePdf() {
+    public ResponseEntity<byte[]> generatePdf(@RequestParam("id") Integer idRegistro) {
         try {
-            byte[] pdf = pdfService.generatePdf();
+
+			PeticionesDTO obj = repopeti.listarPeticiones().stream()
+				.filter(p->p.getPeticionesId().equals(idRegistro))
+				.findFirst()
+				.orElseThrow(() -> new MiException("Registro no encontrado con ID: " + idRegistro));
+
+            byte[] pdf = pdfService.generatePdf(obj);
             
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "documento.pdf");
+            headers.setContentDispositionFormData("filename", "reporte.pdf");
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
             
             return ResponseEntity.ok()
