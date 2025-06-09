@@ -178,6 +178,20 @@ public class UserServicio {
 		return "Usuario no encontrado";
 	}
 
+	@Transactional
+	public void modificarPassword(Integer idusu, String pass) throws MiException {
+
+		UserEntity objUsuario = userRepository.findById(idusu)
+				.orElseThrow(() -> new MiException("Registro no encontrado con ID: " + idusu));
+
+		objUsuario.setPass(pass);
+
+		userRepository.save(objUsuario);
+
+	
+
+	}
+
 	/*
 	 * public Optional<String> recuperarContrasena(String user) {
 	 * List<UserEntity> usuarios =

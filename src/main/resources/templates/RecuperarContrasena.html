@@ -1,20 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section},  ~{::script},  ~{::link}, ~{::inline-style} )}">
 <head>
-    <title>Recuperar Contraseña</title>
-    <meta charset="UTF-8">
+	<title>Categorias</title>
+	<meta charset="UTF-8">	
+
+
+	<th:block layout:fragment="link">
+		<link href="https://cdn.datatables.net/v/bs4/dt-2.2.2/datatables.min.css" rel="stylesheet" integrity="sha384-fTqd416qRc9kwY299KdgUPsjOvS5bwkeE6jlibx2m7eL3xKheqGyU48QCFgZAyN4" crossorigin="anonymous"> 
+    </th:block>
+
+	<th:block th:fragment="inline-style"></th:block>
+
 </head>
 <body>
-    <h1>Recuperar Contraseña</h1>
-    <form method="POST" action="/recuperar-contrasena">
-        Usuario: <input type="text" name="user" required>
-        <input type="submit" value="Recuperar Contraseña">
-    </form>
-    <br>
-    <div th:if="${mensaje != null}">
-        <p th:text="${mensaje}" style="color: red;"></p>
-    </div>
-    <br>
-    <a href="/accesslogin">Volver al login</a>
-</body>
-</html>
+
+	<section>
+
+		<div class="container">
+            
+            <h1>Recuperar Contraseña</h1>
+            <form id="frm">
+
+
+            <div class="form-group">
+                <label for="">Usuario:</label>
+                <input type="text" class="form-control" id="us">
+            </div>
+
+            <div class="form-group">
+                <label for="">Correo:</label>
+                <input type="text" class="form-control" id="corr">
+            </div>
+
+            <div class="form-group">
+                <label for="">Nombre(s)</label>
+                <input type="text" class="form-control" id="nom">
+            </div>
+
+            <div class="form-group">
+                <label for="">Apellido(s)</label>
+                <input type="text" class="form-control" id="ape">
+            </div>
+
+            <div class="form-group">
+                <label for="">Nueva contraseña</label>
+                <input type="text" class="form-control" id="pass">
+            </div>
+
+            <div class="form-group">
+                <label for="">Confirma tu nueva contraseña</label>
+                <input type="text" class="form-control" id="repass">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Recuperar cuenta</button>
+
+               
+                
+            </form>
+            <br>           
+            <br>
+
+            <a href="/accesslogin">Volver al login</a>
+
+        </div>
+
+    </section>
+
+
+
+		
+
+	
+ <!-- Scripts al final de <body> -->
+	<th:block th:fragment="script">
+
+
+	<script src="https://cdn.datatables.net/v/bs4/dt-2.2.2/datatables.min.js" integrity="sha384-uAn6fsp1rIJ6afAYV0S5it5ao101zH2fViB74y5tPG8LR2FTMg+HXIWRNxvZrniN" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+
+		<script>
+
+            let coincidenPass = false;
+
+			
+
+			$(document).ready(function () {
+				console.log("processing")
+
+
+                $('#repass').on('change', function(){
+                    coincidenPass = $('#pass').val() === $('#repass').val()
+                })
+
+                $('#pass').on('change', function(){
+                    coincidenPass = $('#pass').val() === $('#repass').val()
+                })
+
+
+
+                $('#frm').on('submit', function(e){
+                    e.preventDefault();
+
+                    if(!coincidenPass){
+
+                        Swal.fire("Advertencia", "Las contraseñas no coinciden.", "warning")
+
+                    }else{
+
+                        let data = {
+                            "nombre": $('#nom').val(),
+                            "apellido": $('#ape').val(),
+                            "usuario": $('#us').val(),
+                            "correoElectronico": $('#corr').val(),
+                            "contrasena": $('#pass').val()
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/recuperar-contrasena",
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            success: function (response) {
+                                console.log(response)
+
+                                let msj = "";
+                                let icon = "";
+                                let title = "";
+
+                                if(response == true){
+                                    msj="Contraseña actualizada correctamente."
+                                    icon = "success"
+                                    title = "Acción realizada"
+                                }else{
+                                     msj="Tus datos de acceso no coinciden con los del sistema, verifica e intentalo nuevamente."
+                                    icon = "warning"
+                                    title = "Advertencia"
+                                }
+
+                                Swal.fire({
+                                    title:title,
+                                    icon:icon,
+                                    text:msj
+                                }).then(()=>{
+                                   window.location.href = "/accesslogin";
+                                })
+                            },
+                            error: function(xhr) {
+                                let errorMsg = 'Error al guardar el registro';
+                                if (xhr.responseJSON && xhr.responseJSON.message) {
+                                    errorMsg = xhr.responseJSON.message;
+                                } else if (xhr.responseText) {
+                                    errorMsg = xhr.responseText;
+                                }
+
+
+                                Swal.fire({
+                                    title:"Error en la operación",
+                                    icon:"error",
+                                    text:errorMsg
+                                })
+                                
+                            }
+                        });
+
+                        
+
+                    }
+
+
+                })
+				
+			});	
+
+        </script>
+
+
+			
+

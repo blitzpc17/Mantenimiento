@@ -40,4 +40,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 			+ "JOIN a.usen c ")
 	public List<UsuarioDTO> listars();
 
+
+
+	@Query(value = "SELECT * FROM usuarios us join administrador_autorizado aa on us.IDUSUARIOS = aa.ID_USUARIOS_ADMIN  WHERE aa.nombre = :nombre and aa.apellido = :apellido and us.USUARIO = :usuario and us.CORREO = :correo ", nativeQuery = true)
+    List<UserEntity> buscarPorKeywordSQL(@Param("nombre") String nombre, @Param("apellido") String apellido, @Param("usuario") String usuario, @Param("correo") String correo);
+
 }
